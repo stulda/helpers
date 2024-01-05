@@ -45,10 +45,10 @@ sed -i "s/EXTRAVERSION =.*/EXTRAVERSION = $EXTRAVERSION/" Makefile
 if $USE_LLVM;
 then
     echo "Using LLVM"
-    make LLVM=1 LLVM_IAS=1 -j$CORES && make modules_install && make install
+    nice make LLVM=1 LLVM_IAS=1 -j$CORES && make modules_install && make install
 else
     echo "Using GCC"
-    make -j$CORES && make modules_install && make install
+    nice make -j$CORES && make modules_install && make install
 fi
 
 grub-mkconfig -o /boot/grub/grub.cfg

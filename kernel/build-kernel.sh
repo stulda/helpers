@@ -23,11 +23,6 @@ if [ ! -d $KERNEL_DIR-$VERSION ]; then
     exit 1
 fi
 
-if [ `readlink -f $KERNEL_DIR` = $KERNEL_DIR-$VERSION ]; then
-    echo "Linux symlink already points to the version directory."
-    exit 1
-fi
-
 if [ ! -f "$KERNEL_DIR/.config" ]; then
     echo "Kernel config file does not exists."
     exit 1
@@ -39,6 +34,10 @@ unlink $KERNEL_DIR
 ln -s $KERNEL_DIR-$VERSION $KERNEL_DIR
 
 cd $KERNEL_DIR
+
+if [ `readlink -f $KERNEL_DIR` = $KERNEL_DIR-$VERSION ]; then
+    make clean
+fi
 
 sed -i "s/EXTRAVERSION =.*/EXTRAVERSION = $EXTRAVERSION/" Makefile
 
